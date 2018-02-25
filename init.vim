@@ -18,6 +18,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
     Plug 'fatih/vim-go'
     Plug 'mklabs/split-term.vim'
+    "Plug 'neomake/neomake'
+    Plug 'artur-shaik/vim-javacomplete2'
 call plug#end()
 
 "----------------- Spaces & Tabs -------------------
@@ -57,5 +59,8 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = '/Users/nld980/Development/godir/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let NERDTreeShowHidden=1
+
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"call neomake#configure#automake('w')
 "let g:python_host_prog  = '/usr/bin/python'
 "let g:python3_host_prog = '/usr/bin/python3'
