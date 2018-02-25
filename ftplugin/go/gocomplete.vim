@@ -1,0 +1,1 @@
+/Users/nld980/.config/nvim/plugged/gocode/nvim/ftplugin/go/gocomplete.vim
