@@ -16,10 +16,25 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'zchee/deoplete-go', { 'do': 'make'}
     Plug 'vim-airline/vim-airline'
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-    Plug 'fatih/vim-go'
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
     Plug 'mklabs/split-term.vim'
     "Plug 'neomake/neomake'
     Plug 'artur-shaik/vim-javacomplete2'
+    function! BuildComposer(info)
+      if a:info.status != 'unchanged' || a:info.force
+        if has('nvim')
+          !cargo build --release
+        else
+          !cargo build --release --no-default-features --features json-rpc
+        endif
+      endif
+    endfunction
+    Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+    Plug 'zchee/deoplete-clang'
+    Plug 'rhysd/vim-clang-format'
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
 call plug#end()
 
 "----------------- Spaces & Tabs -------------------
@@ -40,6 +55,7 @@ nnoremap ' :
 nnoremap <Leader><Leader> :NERDTreeToggle<CR>
 nnoremap <Leader>tt :VTerm<CR>
 nnoremap <Leader>ht :Term<CR>
+autocmd TermOpen * setlocal nonumber norelativenumber
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -47,7 +63,9 @@ nnoremap <C-H> <C-W><C-H>
 
 "-------------- Mappings - Insert Mode -------------
 imap jj <Esc>
-
+imap <C-F>     <Plug>(neosnippet_expand_or_jump)
+smap <C-F>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-F>     <Plug>(neosnippet_expand_target)
 
 "------------ Settings - Terminal Mode -------------
 tnoremap <C-j> <C-\><C-n>
@@ -60,7 +78,22 @@ let g:deoplete#sources#go#gocode_binary = '/Users/nld980/Development/godir/bin/g
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let NERDTreeShowHidden=1
 
+let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/6.0.1/lib/libclang.dylib'
+let g:deoplete#sources#clang#clang_header = '/usr/local/opt/llvm/lib/clang'
+
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 "call neomake#configure#automake('w')
 "let g:python_host_prog  = '/usr/bin/python'
 "let g:python3_host_prog = '/usr/bin/python3'
+"
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_auto_sameids = 1
+let g:go_fmt_command = "goimports"
+
