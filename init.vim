@@ -32,6 +32,9 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
     Plug 'zchee/deoplete-clang'
     Plug 'rhysd/vim-clang-format'
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
 call plug#end()
 
 "----------------- Spaces & Tabs -------------------
@@ -60,7 +63,9 @@ nnoremap <C-H> <C-W><C-H>
 
 "-------------- Mappings - Insert Mode -------------
 imap jj <Esc>
-
+imap <C-F>     <Plug>(neosnippet_expand_or_jump)
+smap <C-F>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-F>     <Plug>(neosnippet_expand_target)
 
 "------------ Settings - Terminal Mode -------------
 tnoremap <C-j> <C-\><C-n>
