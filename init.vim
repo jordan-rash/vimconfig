@@ -35,6 +35,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'Shougo/neosnippet.vim'
     Plug 'Shougo/neosnippet-snippets'
+    Plug 'sbdchd/neoformat'
+    Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 "----------------- Spaces & Tabs -------------------
@@ -81,6 +83,14 @@ let NERDTreeShowHidden=1
 let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/6.0.1/lib/libclang.dylib'
 let g:deoplete#sources#clang#clang_header = '/usr/local/opt/llvm/lib/clang'
 
+let g:neoformat_java_google = {
+            \ 'exe': 'java',
+            \ 'args': ['-jar /usr/local/share/java/google-java-format-1.6-all-deps.jar -'],
+            \ 'stdin': 1, 
+            \ }
+
+let g:neoformat_enabled_java = ['google']
+
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 "call neomake#configure#automake('w')
 "let g:python_host_prog  = '/usr/bin/python'
@@ -97,3 +107,10 @@ let g:go_highlight_types = 1
 let g:go_auto_sameids = 1
 let g:go_fmt_command = "goimports"
 
+augroup _go
+  autocmd!		
+  autocmd BufWritePre *.java Neoformat
+  autocmd BufWritePre *.yml Neoformat
+  autocmd BufWritePre *.json Neoformat
+  autocmd BufWritePre *.py Neoformat
+augroup END
